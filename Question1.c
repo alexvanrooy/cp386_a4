@@ -1,10 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
+#include <string.h>
 
 
 int *available;
 int resource_num;
+int **customers;
+
+void readFile(char* file_name);
 
 int main(int argc, char *argv[]){
 
@@ -21,6 +25,9 @@ int main(int argc, char *argv[]){
 		printf("NUMBER: %d\n", available[i]);
 	}
 
+	//read the file and populate the customer matrix
+	readFile("sample4_in.txt");
+
 
 
 
@@ -28,4 +35,16 @@ int main(int argc, char *argv[]){
 
 
 	return 0;
+}
+
+
+
+void readFile(char* file_name){
+
+	FILE *in = fopen(file_name, "r");
+
+	printf("Read File\n");
+
+
+	return;
 }
