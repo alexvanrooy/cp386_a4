@@ -27,14 +27,29 @@ int main(int argc, char *argv[]){
 	//read the file and populate the customer matrix
 	test = readFile("sample4_in.txt");
 
+
+	//outputs the avaialble resources to the user
+	printf("Number of Customers: %d\n", customer_num);
+	printf("Currently Available resources:");
+
+	for(int i = 0; i < resource_num; i++){
+		printf(" %d",available[i]);
+	}
+	printf("\n");
+
+
+	printf("Maximum resources from file:\n");
+
+
 	for(int i = 0; i < customer_num; i++){
-		printf("Customer %d: ", i);
 		for(int j = 0; j < resource_num - 1; j++){
 			printf("%d ", test[i][j]);
 		}
 		printf("\n");
 
 	}
+
+	//main loop that asks user to enter command and executes requests
 
 
 
