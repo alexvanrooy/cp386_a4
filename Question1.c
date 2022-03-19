@@ -6,9 +6,11 @@
 
 int *available;
 int resource_num;
-int **customers;
+int customer_num;
+int** test;
 
-void readFile(char* file_name);
+
+int** readFile(char* file_name);
 
 int main(int argc, char *argv[]){
 
@@ -21,13 +23,18 @@ int main(int argc, char *argv[]){
 		available[i - 1] = atoi(argv[i]);
 	}
 
-	for(int i = 0; i < resource_num;i++ ){
-		printf("NUMBER: %d\n", available[i]);
-	}
 
 	//read the file and populate the customer matrix
-	readFile("sample4_in.txt");
+	test = readFile("sample4_in.txt");
 
+	for(int i = 0; i < customer_num; i++){
+		printf("Customer %d: ", i);
+		for(int j = 0; j < resource_num - 1; j++){
+			printf("%d ", test[i][j]);
+		}
+		printf("\n");
+
+	}
 
 
 
@@ -39,12 +46,55 @@ int main(int argc, char *argv[]){
 
 
 
-void readFile(char* file_name){
+int** readFile(char* file_name){
 
 	FILE *in = fopen(file_name, "r");
 
-	printf("Read File\n");
+
+	//counts how many customers there are
+	int customers = 0;
+
+	while(!feof(in)){
+
+		char str[256];
+		fscanf(in, "%s", str);		//reads a line in the file
+		customers++;
+
+	}
+
+	customer_num = customers;
+
+	int** customer_array = malloc(sizeof(int*) * customers);
+
+	for(int i = 0;  i < customers; i++){
+		customer_array[i] = malloc(sizeof(int) * resource_num);
+	}
+
+	rewind(in);
+
+	int current_customer = 0;
+
+	while(!feof(in)){
+
+		char str[256];
+		fscanf(in, "%s", str);		//reads a line in the file
+
+		char* token;
+		token = strtok(str, ",");
+
+		int current_resource = 0;
+		while(token != NULL){
 
 
-	return;
+			customer_array[current_customer][current_resource] = atoi(token);
+			//printf("%s\n",token);
+			token = strtok(NULL, ",");
+			current_resource++;
+		}
+
+		current_customer++;
+
+	}
+
+	return customer_array;
 }
