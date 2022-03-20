@@ -7,7 +7,7 @@
 int *available;
 int resource_num;
 int customer_num;
-int** test;
+int** customer_array;
 
 
 int** readFile(char* file_name);
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 
 
 	//read the file and populate the customer matrix
-	test = readFile("sample4_in.txt");
+	customer_array = readFile("sample4_in.txt");
 
 
 	//outputs the avaialble resources to the user
@@ -43,13 +43,65 @@ int main(int argc, char *argv[]){
 
 	for(int i = 0; i < customer_num; i++){
 		for(int j = 0; j < resource_num - 1; j++){
-			printf("%d ", test[i][j]);
+			printf("%d ", customer_array[i][j]);
 		}
 		printf("\n");
 
 	}
 
 	//main loop that asks user to enter command and executes requests
+
+	while(1){
+		char user_command[100];
+
+
+		printf("Enter Command: ");
+
+
+		//gets the specific command that the user requests
+		char c;
+		int i = 0;
+
+		while((c = getchar()) != '\n'){
+			if(c == ' '){
+				break;
+			}
+
+			user_command[i++] = c;
+		}
+		user_command[i] = '\0';
+
+		printf("User Input: %s\n",user_command);
+
+		if(strcmp(user_command, "Exit") == 0){
+			break;
+		}
+
+
+		else if(strcmp(user_command, "RQ") == 0){
+			printf("Command RQ requested\n");
+
+		}
+		else if(strcmp(user_command, "RL") == 0){
+			printf("Command RL requested\n");
+		}
+		else if(strcmp(user_command, "Status") == 0){
+			printf("Command Status requested\n");
+		}
+		else if(strcmp(user_command, "Run") == 0){
+			printf("Command Run requested\n");
+		}
+		else{
+			printf("Invalid Command\n");
+			while((c = getchar()) != '\n');		//flushes the buffer
+		}
+
+
+
+
+
+
+	}
 
 
 
