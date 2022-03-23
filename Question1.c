@@ -5,12 +5,12 @@
 
 
 int *available;
-//maximum = fill with data from the customers
-//allocated = initialized to 0 for all
+int** maximum;		//maximum demand of each customer
+int** allocated;
 //need
-int resource_num;
-int customer_num;
-int** customer_array;
+
+int resource_num;  //number of unique resources initialized when program starts
+int customer_num;	//how many customers there are
 
 
 int** readFile(char* file_name);
@@ -31,7 +31,23 @@ int main(int argc, char *argv[]){
 
 
 	//read the file and populate the customer matrix
-	customer_array = readFile("sample4_in.txt");
+	maximum = readFile("sample4_in.txt");
+
+	//initialize allocated matrix with values of 0
+	allocated = malloc(sizeof(int*) * customer_num);
+
+	for(int i = 0;  i < customer_num; i++){
+		allocated[i] = malloc(sizeof(int) * resource_num);
+	}
+
+	for(int i = 0; i < customer_num; i++){
+		for(int j = 0; j < resource_num; j++){
+			allocated[i][j] = 0;
+		}
+	}
+
+
+
 
 
 	//outputs the avaialble resources to the user
@@ -49,7 +65,7 @@ int main(int argc, char *argv[]){
 
 	for(int i = 0; i < customer_num; i++){
 		for(int j = 0; j < resource_num; j++){
-			printf("%d ", customer_array[i][j]);
+			printf("%d ", maximum[i][j]);
 		}
 		printf("\n");
 
