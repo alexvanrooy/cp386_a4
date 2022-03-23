@@ -11,6 +11,7 @@ int** customer_array;
 
 
 int** readFile(char* file_name);
+char* readUserInput();
 
 int main(int argc, char *argv[]){
 
@@ -51,14 +52,22 @@ int main(int argc, char *argv[]){
 
 	//main loop that asks user to enter command and executes requests
 
-	while(1){
-		char user_command[100];
-
-
 		printf("Enter Command: ");
+
+		char* user_command = readUserInput();
+
+		printf("USER SAID: %s\n",user_command);
+
+	//while(1){
+
+
+
+
 
 
 		//gets the specific command that the user requests
+
+		/*
 		char c;
 		int i = 0;
 
@@ -95,13 +104,14 @@ int main(int argc, char *argv[]){
 			printf("Invalid Command\n");
 			while((c = getchar()) != '\n');		//flushes the buffer
 		}
+		*/
 
 
 
 
 
 
-	}
+	//}
 
 
 
@@ -165,3 +175,35 @@ int** readFile(char* file_name){
 
 	return customer_array;
 }
+
+
+char* readUserInput(){
+
+	int current_size = 100;
+
+	char *user_input = malloc(current_size);
+
+	if(user_input != NULL){
+		int c = EOF;
+		int i = 0;
+
+		while( (c = getchar()) != '\n' && c != EOF){
+			user_input[i] = (char) c;
+			i++;
+
+			if(i == current_size){
+				current_size = i + 100;
+				user_input = realloc(user_input, current_size);
+
+			}
+		}
+
+		user_input[i] = '\0';
+
+	}
+		return user_input;
+
+}
+
+
+
