@@ -5,6 +5,9 @@
 
 
 int *available;
+//maximum = fill with data from the customers
+//allocated = initialized to 0 for all
+//need
 int resource_num;
 int customer_num;
 int** customer_array;
@@ -18,6 +21,8 @@ int main(int argc, char *argv[]){
 
 	//initializes the available array
 	resource_num = argc-1;
+
+
 	available = (int*)malloc((argc - 1) * sizeof(int));
 
 	for(int i = 1 ; i < argc; i++){
@@ -43,7 +48,7 @@ int main(int argc, char *argv[]){
 
 
 	for(int i = 0; i < customer_num; i++){
-		for(int j = 0; j < resource_num - 1; j++){
+		for(int j = 0; j < resource_num; j++){
 			printf("%d ", customer_array[i][j]);
 		}
 		printf("\n");
@@ -57,66 +62,6 @@ int main(int argc, char *argv[]){
 		char* user_command = readUserInput();
 
 		printf("USER SAID: %s\n",user_command);
-
-	//while(1){
-
-
-
-
-
-
-		//gets the specific command that the user requests
-
-		/*
-		char c;
-		int i = 0;
-
-		while((c = getchar()) != '\n'){
-			if(c == ' '){
-				break;
-			}
-
-			user_command[i++] = c;
-		}
-		user_command[i] = '\0';
-
-		printf("User Input: %s\n",user_command);
-
-		if(strcmp(user_command, "Exit") == 0){
-			break;
-		}
-
-
-		else if(strcmp(user_command, "RQ") == 0){
-			printf("Command RQ requested\n");
-
-		}
-		else if(strcmp(user_command, "RL") == 0){
-			printf("Command RL requested\n");
-		}
-		else if(strcmp(user_command, "Status") == 0){
-			printf("Command Status requested\n");
-		}
-		else if(strcmp(user_command, "Run") == 0){
-			printf("Command Run requested\n");
-		}
-		else{
-			printf("Invalid Command\n");
-			while((c = getchar()) != '\n');		//flushes the buffer
-		}
-		*/
-
-
-
-
-
-
-	//}
-
-
-
-
-
 
 	return 0;
 }
@@ -164,7 +109,6 @@ int** readFile(char* file_name){
 
 
 			customer_array[current_customer][current_resource] = atoi(token);
-			//printf("%s\n",token);
 			token = strtok(NULL, ",");
 			current_resource++;
 		}
