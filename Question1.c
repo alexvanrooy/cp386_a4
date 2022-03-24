@@ -21,13 +21,11 @@ char* readUserInput();
 void calculateNeed();
 void statusCommand();
 int safeState();
+int requestCommand(char* input);
 
 int main(int argc, char *argv[]){
-
-
 	//initializes the available array
 	resource_num = argc-1;
-
 
 	available = (int*)malloc((argc - 1) * sizeof(int));
 
@@ -59,8 +57,6 @@ int main(int argc, char *argv[]){
 		need[i] = malloc(sizeof(int) * resource_num);
 	}
 
-
-
 	//outputs the avaialble resources to the user
 	printf("Number of Customers: %d\n", customer_num);
 	printf("Currently Available resources:");
@@ -85,20 +81,30 @@ int main(int argc, char *argv[]){
 	calculateNeed();
 
 	//main loop that asks user to enter command and executes requests
-
 	while(1){
+
 		printf("Enter Command: ");
-
-
 		char* token;
 		char* user_command = readUserInput();
+
+		char command_copy[strlen(user_command)];
+		strcpy(command_copy, user_command);
+
 		token = strtok(user_command," ");
+
 
 		if(strcmp(user_command, "Exit") == 0){
 			break;
 		}
 		else if(strcmp(token, "RQ") == 0){
-			printf("RQ\n");
+			int request_success = requestCommand(command_copy);
+
+			if(request_success == TRUE){
+				printf("State is safe, and request is satisfied\n");
+			}
+			else{
+				printf("State is unsafe, and request is denied\n");
+			}
 		}
 		else if(strcmp(token, "RL") == 0){
 			printf("RL\n");
@@ -109,6 +115,7 @@ int main(int argc, char *argv[]){
 		}
 		else if(strcmp(user_command, "Run") == 0){
 			printf("Run\n");
+
 			int is_safe = safeState();
 			if(is_safe == FALSE){
 				printf("state is not safe\n");
@@ -318,4 +325,47 @@ int safeState(){
 
 	return is_safe;
 }
+
+int requestCommand(char* input){
+	int is_safe = FALSE;
+	char* token;
+	token = strtok(input, " "); //this is the command name (discard it)
+	token = strtok(NULL, " "); // this is the customer number
+
+	int customer_number = atoi(token);
+
+	if(customer_number >= customer_num){		//requested a customer number that is not in the available cutomers
+		return is_safe;
+	}
+
+	int request[resource_num];
+
+	//fill the request vector with the values from the input
+	int count = 0;
+	token = strtok(NULL, " ");
+
+	while(token != NULL){
+		if(count >= resource_num){	//there are more resources requested than there are resources in the system
+			return is_safe;
+		}
+
+		request[count] = atoi(token);
+		count++;
+		token = strtok(NULL, " ");
+	}
+
+	for(int i = 0; i < resource_num; i++){
+		printf("%d ",request[i]);
+	}
+
+	printf("\n");
+
+	//check that request is less than need
+	//for(int i = 0; i < resource_num; i++)
+
+
+
+	return is_safe;
+}
+
 
