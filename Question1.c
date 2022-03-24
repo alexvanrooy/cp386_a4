@@ -327,15 +327,14 @@ int safeState(){
 }
 
 int requestCommand(char* input){
-	int is_safe = FALSE;
 	char* token;
 	token = strtok(input, " "); //this is the command name (discard it)
 	token = strtok(NULL, " "); // this is the customer number
 
 	int customer_number = atoi(token);
 
-	if(customer_number >= customer_num){		//requested a customer number that is not in the available cutomers
-		return is_safe;
+	if(customer_number >= customer_num){		//requested a customer number that is not in the available customers
+		return FALSE;
 	}
 
 	int request[resource_num];
@@ -346,7 +345,7 @@ int requestCommand(char* input){
 
 	while(token != NULL){
 		if(count >= resource_num){	//there are more resources requested than there are resources in the system
-			return is_safe;
+			return FALSE;
 		}
 
 		request[count] = atoi(token);
@@ -361,11 +360,24 @@ int requestCommand(char* input){
 	printf("\n");
 
 	//check that request is less than need
-	//for(int i = 0; i < resource_num; i++)
+	for(int i = 0; i < resource_num; i++){
+		if(request[i] > need[customer_number][i]){
+			return FALSE;
+		}
+	}
 
 
+	//check that request <= available
+	for(int i = 0; i < resource_num; i++){
+		if(request[i] > available[i]){
+			return FALSE;
+		}
+	}
 
-	return is_safe;
+	//pretend to allocate resources then check if state is safe
+
+
+	return TRUE;
 }
 
 
