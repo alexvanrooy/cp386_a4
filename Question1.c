@@ -7,7 +7,7 @@
 int *available;
 int** maximum;		//maximum demand of each customer
 int** allocated;
-//need
+int** need;
 
 int resource_num;  //number of unique resources initialized when program starts
 int customer_num;	//how many customers there are
@@ -15,6 +15,8 @@ int customer_num;	//how many customers there are
 
 int** readFile(char* file_name);
 char* readUserInput();
+void calculateNeed();
+void statusCommand();
 
 int main(int argc, char *argv[]){
 
@@ -46,9 +48,12 @@ int main(int argc, char *argv[]){
 		}
 	}
 
+	//initialize need matrix
+	need = malloc(sizeof(int*) * customer_num);
 
-	//initialize the need matrix
-
+	for(int i = 0;  i < customer_num; i++){
+		need[i] = malloc(sizeof(int) * resource_num);
+	}
 
 
 
@@ -73,6 +78,8 @@ int main(int argc, char *argv[]){
 
 	}
 
+	calculateNeed();
+
 	//main loop that asks user to enter command and executes requests
 
 	while(1){
@@ -83,9 +90,6 @@ int main(int argc, char *argv[]){
 		char* user_command = readUserInput();
 		token = strtok(user_command," ");
 
-		printf("USER SAID: %s\n",user_command);
-
-
 		if(strcmp(user_command, "Exit") == 0){
 			break;
 		}
@@ -95,8 +99,16 @@ int main(int argc, char *argv[]){
 		else if(strcmp(token, "RL") == 0){
 			printf("RL\n");
 		}
-
-
+		else if(strcmp(user_command, "Status") == 0){
+			printf("Status\n");
+			statusCommand();
+		}
+		else if(strcmp(user_command, "Run") == 0){
+			printf("Run\n");
+		}
+		else{
+			printf("Invalid  input,  use  one  of  RQ,  RL, Status, Run, Exit\n");
+		}
 
 	}
 
@@ -187,5 +199,47 @@ char* readUserInput(){
 
 }
 
+void calculateNeed(){
+	for(int i = 0; i < customer_num; i++){
+		for(int j = 0; j < resource_num; j++){
+			need[i][j] = maximum[i][j] - allocated[i][j];
+		}
+	}
+	return;
+}
+
+void statusCommand(){
+	printf("Available Resources:\n");
+	for(int i = 0; i < resource_num; i++){
+		printf("%d ",available[i]);
+	}
+	printf("\n");
+
+	printf("Maximum Resources:\n");
+	for(int i = 0; i < customer_num; i++){
+		for(int j = 0; j < resource_num; j++){
+			printf("%d ",maximum[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("Allocated Resources:\n");
+	for(int i = 0; i < customer_num; i++){
+		for(int j = 0; j < resource_num; j++){
+			printf("%d ",allocated[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("Need Resources:\n");
+	for(int i = 0; i < customer_num; i++){
+		for(int j = 0; j < resource_num; j++){
+			printf("%d ",need[i][j]);
+		}
+		printf("\n");
+	}
+
+	return;
+}
 
 
