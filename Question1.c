@@ -47,6 +47,8 @@ int main(int argc, char *argv[]){
 	}
 
 
+	//initialize the need matrix
+
 
 
 
@@ -73,11 +75,31 @@ int main(int argc, char *argv[]){
 
 	//main loop that asks user to enter command and executes requests
 
+	while(1){
 		printf("Enter Command: ");
 
+
+		char* token;
 		char* user_command = readUserInput();
+		token = strtok(user_command," ");
 
 		printf("USER SAID: %s\n",user_command);
+
+
+		if(strcmp(user_command, "Exit") == 0){
+			break;
+		}
+		else if(strcmp(token, "RQ") == 0){
+			printf("RQ\n");
+		}
+		else if(strcmp(token, "RL") == 0){
+			printf("RL\n");
+		}
+
+
+
+	}
+
 
 	return 0;
 }
