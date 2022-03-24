@@ -3,6 +3,9 @@
 #include<unistd.h>
 #include <string.h>
 
+#define FALSE 0
+#define TRUE 1
+
 
 int *available;
 int** maximum;		//maximum demand of each customer
@@ -242,4 +245,37 @@ void statusCommand(){
 	return;
 }
 
+// returns 0 if false and 1 if true
+int safeState(){
+	int is_safe = FALSE;
+
+	//initialize finish[] to FALSE
+	int* finish = malloc(sizeof(int)*customer_num);
+	for(int i = 0; i < customer_num; i++){
+		finish[i] = FALSE;
+	}
+
+	//make array copy of available into array work
+	int* work = malloc(sizeof(int*) * resource_num);
+
+	//fill work with the values in available
+	for(int i = 0; i < resource_num; i++){
+		work[i] = available[i];
+	}
+
+
+
+
+
+
+
+
+
+
+
+	free(work);
+	free(finish);
+
+	return is_safe;
+}
 
