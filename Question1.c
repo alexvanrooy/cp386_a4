@@ -20,6 +20,7 @@ int** readFile(char* file_name);
 char* readUserInput();
 void calculateNeed();
 void statusCommand();
+int safeState();
 
 int main(int argc, char *argv[]){
 
@@ -108,6 +109,13 @@ int main(int argc, char *argv[]){
 		}
 		else if(strcmp(user_command, "Run") == 0){
 			printf("Run\n");
+			int is_safe = safeState();
+			if(is_safe == FALSE){
+				printf("state is not safe\n");
+			}
+			else{
+				printf("state is safe\n");
+			}
 		}
 		else{
 			printf("Invalid  input,  use  one  of  RQ,  RL, Status, Run, Exit\n");
@@ -247,7 +255,6 @@ void statusCommand(){
 
 // returns 0 if false and 1 if true
 int safeState(){
-	int is_safe = FALSE;
 
 	//initialize finish[] to FALSE
 	int* finish = malloc(sizeof(int)*customer_num);
@@ -263,15 +270,48 @@ int safeState(){
 		work[i] = available[i];
 	}
 
+	//main loop
+
+	int found = TRUE;
+
+	while(found == TRUE){
+		int index = -1;
+		for(int i = 0; i < customer_num; i++){
+			if(finish[i] == FALSE){
+				int less = TRUE;
+				for(int j = 0; j < resource_num; j++){
+					if(need[i][j] > work[j]){
+						less = FALSE;
+						break;
+					}
+				}
+				if(less == TRUE){
+					index = i;
+					break;
+				}
+			}
+		}
+		if(index == -1){
+			found = FALSE;
+		}
+		else{
+			//work = work + allocated
+			for(int i = 0; i < resource_num; i++){
+				work[i] = work[i] + allocated[index][i];
+			}
+			finish[index] = TRUE;
+		}
+	}
 
 
+	int is_safe = TRUE;
 
-
-
-
-
-
-
+	for(int i = 0; i < customer_num; i++){
+		if(finish[i] == FALSE){
+			is_safe = FALSE;
+			break;
+		}
+	}
 
 	free(work);
 	free(finish);
