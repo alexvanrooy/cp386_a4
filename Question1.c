@@ -22,6 +22,7 @@ void calculateNeed();
 void statusCommand();
 int safeState();
 int requestCommand(char* input);
+int releaseCommand(char* input);
 
 int main(int argc, char *argv[]){
 	//initializes the available array
@@ -107,7 +108,15 @@ int main(int argc, char *argv[]){
 			}
 		}
 		else if(strcmp(token, "RL") == 0){
-			printf("RL\n");
+			int successful_release = releaseCommand(command_copy);
+			if(successful_release == TRUE){
+				printf("The  resources  have  been  released successfully\n");
+			}
+			else{
+				printf("The resources not been released\n");
+			}
+
+
 		}
 		else if(strcmp(user_command, "Status") == 0){
 			printf("Status\n");
@@ -133,7 +142,6 @@ int main(int argc, char *argv[]){
 
 	return 0;
 }
-
 
 
 int** readFile(char* file_name){
@@ -390,6 +398,60 @@ int requestCommand(char* input){
 
 
 	return is_safe;
+}
+
+int releaseCommand(char* input){
+	char* token;
+	token = strtok(input, " "); //this is the command name (discard it)
+	token = strtok(NULL, " "); // this is the customer number
+
+	int customer_number = atoi(token);
+
+	if(customer_number >= customer_num){		//requested a customer number that is not in the available customers
+		return FALSE;
+	}
+
+	int request[resource_num];
+
+	for(int i = 0; i < resource_num; i++){
+		request[i] = 0;
+	}
+
+	//fill the request vector with the values from the input
+	int count = 0;
+	token = strtok(NULL, " ");
+
+	while(token != NULL){
+		if(count >= resource_num){	//there are more resources requested than there are resources in the system
+			return FALSE;
+		}
+
+		request[count] = atoi(token);
+		count++;
+		token = strtok(NULL, " ");
+	}
+
+
+
+	//check that the request <= allocated
+	for(int i = 0; i < resource_num; i++){
+		if(request[i] > allocated[customer_number][i]){
+			return FALSE;
+		}
+	}
+
+
+	//free the resources and change all the data structures
+	for(int i = 0; i < resource_num; i++){
+		allocated[customer_number][i] = allocated[customer_number][i] - request[i];
+		need[customer_number][i] = need[customer_number][i] + request[i];
+		available[i] = available[i] + request[i];
+	}
+
+
+
+	return TRUE;
+
 }
 
 
