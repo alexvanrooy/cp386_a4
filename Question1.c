@@ -23,6 +23,8 @@ void statusCommand();
 int safeState();
 int requestCommand(char* input);
 int releaseCommand(char* input);
+int* findSafeSequence();
+void runCommand();
 
 int main(int argc, char *argv[]){
 	//initializes the available array
@@ -123,15 +125,7 @@ int main(int argc, char *argv[]){
 			statusCommand();
 		}
 		else if(strcmp(user_command, "Run") == 0){
-			printf("Run\n");
-
-			int is_safe = safeState();
-			if(is_safe == FALSE){
-				printf("state is not safe\n");
-			}
-			else{
-				printf("state is safe\n");
-			}
+			runCommand();
 		}
 		else{
 			printf("Invalid  input,  use  one  of  RQ,  RL, Status, Run, Exit\n");
@@ -454,4 +448,90 @@ int releaseCommand(char* input){
 
 }
 
+int* findSafeSequence(){
+
+	int* safe_sequence = malloc(sizeof(int)*customer_num);
+
+	for(int i = 0; i < customer_num; i++){
+		safe_sequence[i] = -1;
+	}
+
+	//initialize finish[] to FALSE
+	int* finish = malloc(sizeof(int)*customer_num);
+	for(int i = 0; i < customer_num; i++){
+		finish[i] = FALSE;
+	}
+
+	//make array copy of available into array work
+	int* work = malloc(sizeof(int*) * resource_num);
+
+	//fill work with the values in available
+	for(int i = 0; i < resource_num; i++){
+		work[i] = available[i];
+	}
+
+	//main loop
+
+	int found = TRUE;
+
+	int order = 0;
+	while(found == TRUE){
+		int index = -1;
+		for(int i = 0; i < customer_num; i++){
+			if(finish[i] == FALSE){
+				int less = TRUE;
+				for(int j = 0; j < resource_num; j++){
+					if(need[i][j] > work[j]){
+						less = FALSE;
+						break;
+					}
+				}
+				if(less == TRUE){
+					index = i;
+					break;
+				}
+			}
+		}
+		if(index == -1){
+			found = FALSE;
+		}
+		else{
+			//work = work + allocated
+			for(int i = 0; i < resource_num; i++){
+				work[i] = work[i] + allocated[index][i];
+			}
+			finish[index] = TRUE;
+			safe_sequence[order] = index;
+			order++;
+		}
+	}
+
+
+	free(work);
+	free(finish);
+
+	return safe_sequence;
+
+}
+
+void runCommand(){
+	int is_safe = safeState();
+	if(is_safe == FALSE){
+		printf("State is not safe, Run request denied\n");
+		return;
+	}
+
+	int* safe_sequence = findSafeSequence();
+
+	printf("Safe Sequence is: ");
+	for(int i = 0; i < customer_num; i++){
+		printf("%d ",safe_sequence[i]);
+	}
+	printf("\n");
+
+
+
+	free(safe_sequence);
+	return;
+}
 
