@@ -353,11 +353,6 @@ int requestCommand(char* input){
 		token = strtok(NULL, " ");
 	}
 
-	for(int i = 0; i < resource_num; i++){
-		printf("%d ",request[i]);
-	}
-
-	printf("\n");
 
 	//check that request is less than need
 	for(int i = 0; i < resource_num; i++){
@@ -375,9 +370,26 @@ int requestCommand(char* input){
 	}
 
 	//pretend to allocate resources then check if state is safe
+	for(int i = 0; i < resource_num; i++){
+		available[i] = available[i] - request[i];
+		allocated[customer_number][i] = allocated[customer_number][i] + request[i];
+		need[customer_number][i] = need[customer_number][i] - request[i];
+	}
+
+	int is_safe = safeState();
+
+	if(is_safe == FALSE){		//restore old values
+
+		for(int i = 0; i < resource_num; i++){
+			available[i] = available[i] + request[i];
+			allocated[customer_number][i] = allocated[customer_number][i] - request[i];
+			need[customer_number][i] = need[customer_number][i] + request[i];
+		}
+	}
 
 
-	return TRUE;
+
+	return is_safe;
 }
 
 
