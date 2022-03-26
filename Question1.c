@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include <string.h>
+#include <pthread.h>
 
 #define FALSE 0
 #define TRUE 1
@@ -25,6 +26,7 @@ int requestCommand(char* input);
 int releaseCommand(char* input);
 int* findSafeSequence();
 void runCommand();
+void *runThread(void *customer_id);
 
 int main(int argc, char *argv[]){
 	//initializes the available array
@@ -529,9 +531,55 @@ void runCommand(){
 	}
 	printf("\n");
 
-
+	for(int i = 0; i < customer_num; i++){
+		printf("--> Customer/Thread %d\n",safe_sequence[i]);
+		pthread_t t_id;
+		int current_id = safe_sequence[i];
+		int *id_p = &current_id;
+		pthread_create(&t_id, NULL, runThread,(void *)id_p);
+		pthread_join(t_id, NULL);
+	}
 
 	free(safe_sequence);
 	return;
 }
 
+
+void *runThread(void *input){
+	int customer_id = *((int *)input);
+
+	printf("   Allocated resources: ");
+	for(int i =0; i < resource_num; i++){
+		printf(" %d",allocated[customer_id][i]);
+	}
+	printf("\n");
+
+	printf("   Needed: ");
+		for(int i =0; i < resource_num; i++){
+			printf(" %d",need[customer_id][i]);
+		}
+	printf("\n");
+
+	printf("   Available: ");
+		for(int i =0; i < resource_num; i++){
+			printf(" %d",available[i]);
+		}
+	printf("\n");
+	printf("    Thread has started\n");
+	//add the allocated to the available and reset need back to maximum
+	for(int i = 0; i < resource_num; i++){
+		available[i] = available[i] + allocated[customer_id][i];
+		allocated[customer_id][i] = 0;
+		need[customer_id][i] = maximum[customer_id][i];
+	}
+	printf("   Thread has finished\n");
+	printf("   Thread is releasing resources\n");
+	printf("   New Available: ");
+	for(int i = 0; i < resource_num; i++){
+		printf("%d ",available[i]);
+	}
+	printf("\n");
+
+
+	return NULL;
+}
