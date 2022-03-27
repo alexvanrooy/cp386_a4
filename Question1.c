@@ -334,6 +334,9 @@ int requestCommand(char* input){
 	char* token;
 	token = strtok(input, " "); //this is the command name (discard it)
 	token = strtok(NULL, " "); // this is the customer number
+	if(token == NULL){
+		return FALSE;
+	}
 
 	int customer_number = atoi(token);
 
@@ -400,6 +403,10 @@ int releaseCommand(char* input){
 	char* token;
 	token = strtok(input, " "); //this is the command name (discard it)
 	token = strtok(NULL, " "); // this is the customer number
+
+	if(token == NULL){
+		return FALSE;
+	}
 
 	int customer_number = atoi(token);
 
