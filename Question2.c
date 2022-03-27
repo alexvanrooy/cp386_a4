@@ -18,7 +18,7 @@ struct Process {
 	struct Process* next;
 };
 
-struct Process head;
+struct Process* head = NULL;
 
 
 
@@ -29,7 +29,8 @@ int main(int argc, char *argv[]){
 	}
 
 	//initialize the head process
-	head.process_id = -1;
+	head = (struct Process*)malloc(sizeof(struct Process));
+	head->process_id = -1;
 
 	MAX = atoi(argv[1]);
 	printf("Allocated %d bytes of memory\n",MAX);
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]){
 
 		else if(strcmp(token, "RQ") == 0){
 			printf("RQ COMMAND\n");
-			if(head.process_id == -1){
+			if(head->process_id == -1){
 				printf("yo\n");
 			}
 		}
