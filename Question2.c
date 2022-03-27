@@ -8,11 +8,28 @@ int MAX;
 
 char* readUserInput();
 
+
+
+//this struct will be a linked list that holds the data for all the memory allocatons
+struct Process {
+	int process_id;
+	int mem_start;
+	int mem_end;
+	struct Process* next;
+};
+
+struct Process head;
+
+
+
 int main(int argc, char *argv[]){
 	if(argc < 2){
 		printf("Invalid Initialization\n");
 		return 0;
 	}
+
+	//initialize the head process
+	head.process_id = -1;
 
 	MAX = atoi(argv[1]);
 	printf("Allocated %d bytes of memory\n",MAX);
@@ -37,6 +54,9 @@ int main(int argc, char *argv[]){
 
 		else if(strcmp(token, "RQ") == 0){
 			printf("RQ COMMAND\n");
+			if(head.process_id == -1){
+				printf("yo\n");
+			}
 		}
 
 		else if(strcmp(token, "Status") == 0){
