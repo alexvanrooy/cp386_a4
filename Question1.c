@@ -95,6 +95,7 @@ int main(int argc, char *argv[]){
 		char command_copy[strlen(user_command)];
 		strcpy(command_copy, user_command);
 
+
 		token = strtok(user_command," ");
 
 
