@@ -23,7 +23,7 @@ struct Process {
 	struct Process* next;
 };
 
-struct Process* head = NULL;
+struct Process** head = NULL;
 
 
 
@@ -36,9 +36,10 @@ int main(int argc, char *argv[]){
 	total_allocated = 0;
 
 	//initialize the head process
+	/*
 	head = (struct Process*)malloc(sizeof(struct Process));
 	head->process_id = -1;
-
+	*/
 	MAX = atoi(argv[1]);
 	printf("Allocated %d bytes of memory\n",MAX);
 
@@ -62,6 +63,9 @@ int main(int argc, char *argv[]){
 
 		else if(strcmp(token, "RQ") == 0){
 			requestCommand(command_copy);
+			if(head != NULL){
+				printf("head id %d\n",(*head)->process_id);
+			}
 		}
 
 		else if(strcmp(token, "Status") == 0){
@@ -118,6 +122,7 @@ void requestCommand(char* input){
 		printf("Invalid RQ command\n");
 		return;
 	}
+
 	token = strtok(NULL, " "); // gets the size
 	if(token == NULL){
 		printf("Invalid RQ command\n");
@@ -128,16 +133,34 @@ void requestCommand(char* input){
 		printf("Cannot allocate 0 memory, request denied\n");
 		return;
 	}
-
-
-
-
-	int count = 0;
-	while(token != NULL){
-		printf("%d: %s\n",count, token);
-		count++;
-		token = strtok(NULL, " ");
+	token = strtok(NULL, " ");
+	if(strcmp(token, "B") != 0){
+		printf("Unsupported Allocation Algorithm requested, try B (Best-Fit)\n");
+		return;
 	}
+
+
+	//memory allocation process
+	if(size > MAX){
+		printf("No hole of sufficient size\n");
+		return;
+	}
+
+	if(head == NULL){ //first allocation
+		struct Process* current = (struct Process*)malloc(sizeof(struct Process));
+		current->mem_end = size - 1;
+		current->mem_start = 0;
+		current->next = NULL;
+		current->process_id = atoi(process_number + 1);
+		head = &current;
+		printf("new head\n");
+	}
+	else{		//traverse the link list looking for a the smallest hole that fits
+		printf("not head\n");
+
+
+	}
+
 
 
 	return;
