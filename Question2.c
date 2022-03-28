@@ -3,10 +3,15 @@
 #include<unistd.h>
 #include <string.h>
 
+#define FALSE 0
+#define TRUE 1
+
+int total_allocated;
 int MAX;
 
 
 char* readUserInput();
+void requestCommand(char* input);
 
 
 
@@ -27,6 +32,8 @@ int main(int argc, char *argv[]){
 		printf("Invalid Initialization\n");
 		return 0;
 	}
+
+	total_allocated = 0;
 
 	//initialize the head process
 	head = (struct Process*)malloc(sizeof(struct Process));
@@ -54,10 +61,7 @@ int main(int argc, char *argv[]){
 		}
 
 		else if(strcmp(token, "RQ") == 0){
-			printf("RQ COMMAND\n");
-			if(head->process_id == -1){
-				printf("yo\n");
-			}
+			requestCommand(command_copy);
 		}
 
 		else if(strcmp(token, "Status") == 0){
@@ -103,4 +107,38 @@ char* readUserInput(){
 	}
 		return user_input;
 
+}
+
+void requestCommand(char* input){
+
+	char* token;
+	token = strtok(input, " "); //gets RQ, discard
+	char* process_number = strtok(NULL, " ");
+	if(process_number == NULL){
+		printf("Invalid RQ command\n");
+		return;
+	}
+	token = strtok(NULL, " "); // gets the size
+	if(token == NULL){
+		printf("Invalid RQ command\n");
+		return;
+	}
+	int size = atoi(token);
+	if(size == 0){
+		printf("Cannot allocate 0 memory, request denied\n");
+		return;
+	}
+
+
+
+
+	int count = 0;
+	while(token != NULL){
+		printf("%d: %s\n",count, token);
+		count++;
+		token = strtok(NULL, " ");
+	}
+
+
+	return;
 }
