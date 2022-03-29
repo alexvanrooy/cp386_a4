@@ -573,7 +573,7 @@ void *runThread(void *input){
 			printf(" %d",available[i]);
 		}
 	printf("\n");
-	printf("    Thread has started\n");
+	printf("   Thread has started\n");
 	//add the allocated to the available and reset need back to maximum
 	for(int i = 0; i < resource_num; i++){
 		available[i] = available[i] + allocated[customer_id][i];
