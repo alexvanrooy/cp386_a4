@@ -12,6 +12,7 @@ int MAX;
 
 char* readUserInput();
 void requestCommand(char* input);
+void releaseCommand(char* input);
 
 
 
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]){
 		}
 
 		else if(strcmp(token, "RL") == 0){
-			printf("RL COMMAND\n");
+			releaseCommand(command_copy);
 		}
 
 		else if(strcmp(token, "RQ") == 0){
@@ -204,7 +205,56 @@ void requestCommand(char* input){
 
 	}
 
+	return;
+}
 
+void releaseCommand(char* input){
+
+	char* token;
+	token = strtok(input, " ");
+
+	if(token == NULL){
+		printf("Invalid RL command\n");
+		return;
+	}
+
+	char* process_string = strtok(NULL, " ");
+	if(process_string == NULL){
+		printf("Invalid RL command\n");
+		return;
+	}
+
+
+	int process_number = atoi(process_string + 1);
+
+	struct Process* current = head;
+	struct Process* previous = NULL;
+
+	if(head == NULL){
+		printf("No memory has been allocated yet, release request denied\n");
+		return;
+	}
+
+	//if the head is the memory to be freed
+	if(head->process_id == process_number){
+		head = head->next;
+		free(current);
+		printf("releasing memory for process P%d\n", process_number);
+		return;
+	}
+
+
+	while(current != NULL){
+		if(current->process_id == process_number){
+			previous->next = current->next;
+			free(current);
+			printf("releasing memory for process P%d\n", process_number);
+			break;
+		}
+		previous = current;
+		current = current->next;
+	}
 
 	return;
+
 }
