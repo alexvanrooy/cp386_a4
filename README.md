@@ -1,5 +1,20 @@
 # CP386 Assignment 4
 
+## Features
+###### Question 1
+This program implements the bankers algorithm, which is an algorithm that allows different "customers" to request resources and ensures that the system is left in a safe state such that deadlock doesn't occur. 
+
+When the program is first run the number of resources and how much of each resource is present will be initialized, this what the "bank" has available. Following the initalization of the bank's resources, the "customer's" demands will be loaded from reading the file _sample4_in.txt_. 
+
+The program requires that the user enter commands to perform different functions, the commands are as follows:
+- RQ
+- RL
+- Status
+- Run
+- Exit
+
+###### Question 2
+
 ## Makefile
 The makefile provided is used to compile both Question1.c and Question2.c.
 
@@ -16,10 +31,6 @@ NOTE: make sure that the file _sample4_in.txt_ is present in the same directory 
 
 ## Individual Contribution
 As I am in a group alone, I was the only contributor to the following programs and wrote all the code myself.
-
-## Features
-###### Question 1
-###### Question 2
 
 ## Test Cases
 ###### Question 1
