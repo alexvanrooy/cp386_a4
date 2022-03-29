@@ -159,49 +159,99 @@ void requestCommand(char* input){
 		return;
 	}
 
-	if(head == NULL){
-		printf("Head is empty...allocating first block\n");
-
+	if(head == NULL){									//for the first memory allocation
 		head = malloc(sizeof(struct Process));
 		head->mem_start = 0;
 		head->mem_end = size - 1;
 		head->next = NULL;
 		head->process_id = process_number;
 		total_allocated += size;
+		printf("Successfully allocated %d to process P%d\n",size, process_number);
 	}
-	else{
-		//struct Process* smallest_hole;
+	else{												//for all memory allocations after the first one
+		struct Process* smallest_hole = NULL;
 		struct Process* current = head;
 		struct Process* previous = NULL;
-		int current_hole_size = -1;
+		int current_hole_size;
 		int min_hole_size = -1;
-
-		//check that the head mem_start is at 0, if not then check the size of the hole from 0 to head mem_start
-
-
 
 		while(current != NULL){ //go through the list and fine the smallest hole
 			//if previous == NULL check that the current mem_start is not == 0 cause then there is a hole from 0 to current mem_start
+			if(previous == NULL){
+				current_hole_size = current->mem_start;
+				if(current_hole_size >= size){
+					if(min_hole_size == -1 || current_hole_size < min_hole_size){
+						min_hole_size = current_hole_size;
+						smallest_hole = previous;
+					}
+				}
+			}
 
-			//if previous != NULL then check the hole between previous mem_end and current mem_start
+
+			else if(previous != NULL){													//finding smallest hole in the middle of the list
+				current_hole_size = current->mem_start - (previous->mem_end + 1);
+
+				if(min_hole_size == -1 && current_hole_size >= size){
+					min_hole_size = current_hole_size;
+					smallest_hole = previous;
+				}
+
+				//if previous != NULL then check the hole between previous mem_end and current mem_start
+				else if(current_hole_size >= size && current_hole_size < min_hole_size){
+					min_hole_size = current_hole_size;
+					smallest_hole = previous;
+				}
+
+			}
+
 			previous = current;
 			current = current->next;
 		}
 
-		//check that the previous mem_end is equal to max-1, if not then check the size of the hole from mem_end to max - 1
-		if(previous->mem_end != MAX - 1){
+
+		if(previous->mem_end != MAX - 1){								//finding smallest hole between the MAX size and the last memory allocation
 			current_hole_size = (MAX - 1) - previous->mem_end;
 			//add a check here to make sure that this hole is smaller than the previous small hole
-			if(current_hole_size >= size){
-				previous->next = malloc(sizeof(struct Process));
-				previous->next->mem_start = previous->mem_end + 1;
-				previous->next->mem_end = previous->next->mem_start + (size - 1);
-				previous->next->next = NULL;
-				previous->next->process_id = process_number;
+			if(current_hole_size < min_hole_size || min_hole_size == -1){
+				if(current_hole_size >= size){
+					previous->next = malloc(sizeof(struct Process));
+					previous->next->mem_start = previous->mem_end + 1;
+					previous->next->mem_end = previous->next->mem_start + (size - 1);
+					previous->next->next = NULL;
+					previous->next->process_id = process_number;
+					printf("Successfully allocated %d to process P%d\n",size, process_number);
+					return;
+				}
 			}
+
+		}
+
+		//if the smallest hole is between 0 and the head mem_start
+		if(min_hole_size != -1 && smallest_hole == NULL){
+			struct Process* new_allocation = malloc(sizeof(struct Process));
+			struct Process* temp = head;
+			new_allocation->next = temp;
+			new_allocation->mem_start = 0;
+			new_allocation->mem_end = size - 1;
+			new_allocation->process_id = process_number;
+			head = new_allocation;
+			printf("Successfully allocated %d to process P%d\n",size, process_number);
+			return;
+
+
 		}
 
 
+
+		//creates the new memory allocation
+		struct Process* new_allocation = malloc(sizeof(struct Process));
+		new_allocation->next = smallest_hole->next;
+		smallest_hole->next = new_allocation;
+
+		new_allocation->mem_start = (smallest_hole->mem_end + 1);
+		new_allocation->mem_end = new_allocation->mem_start + (size - 1);
+		new_allocation->process_id = process_number;
+		printf("Successfully allocated %d to process P%d\n",size, process_number);
 
 	}
 
