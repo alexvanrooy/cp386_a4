@@ -5,6 +5,7 @@
 ## Screenshots
 
 ## Individual Contribution
+As I am in a group alone, I was the only contributor to the following programs and wrote all the code myself.
 
 ## Features
 ###### Question 1
