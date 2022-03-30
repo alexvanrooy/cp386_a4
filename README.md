@@ -44,6 +44,23 @@ To use the makefile:
 
 NOTE: make sure that the file _sample4_in.txt_ is present in the same directory as Question1 as the file is necassary for the program to run.
 
+## Use Examples
+###### Question1.c
+For each of these examples assume there are 4 unique resources in the system
+
+Requesting 1 of each resource for customer 0:
+> RQ 0 1 1 1 1
+
+Releasing some of the resources allocated to customer 0:
+> RL 0 1 0 0 1
+
+###### Question2.c
+Requesting a contiguous block of memory for process P0 with a size of 10000 bytes using Best-Fit algorithm:
+> RQ P0 10000 B
+
+Releasing the memory block allocated to process P0:
+> RL P0
+
 ## Screenshots
 ###### Question1.c
 When the program is first executed:
@@ -64,23 +81,17 @@ Running the safe sequence:
 >![image](https://user-images.githubusercontent.com/96751896/160736930-849a44b9-2799-4d63-9a39-e48d36bc94ff.png)
 
 ###### Question2.c
+When the program is first executed:
+>![image](https://user-images.githubusercontent.com/96751896/160737405-161f5710-5ec2-4438-b770-e47e6c784a37.png)
 
-## Use Examples
-###### Question1.c
-For each of these examples assume there are 4 unique resources in the system
+Requesting blocks of memory for different processes:
+>![image](https://user-images.githubusercontent.com/96751896/160737726-5623da75-555e-48bc-a147-b289ded7fc19.png)
 
-Requesting 1 of each resource for customer 0:
-> RQ 0 1 1 1 1
+Releasing a processes' block of memory:
+>![image](https://user-images.githubusercontent.com/96751896/160737846-c78b8cf1-cd8e-4545-bec8-dfaa9e150dd8.png)
 
-Releasing some of the resources allocated to customer 0:
-> RL 0 1 0 0 1
-
-###### Question2.c
-Requesting a contiguous block of memory for process P0 with a size of 10000 bytes using Best-Fit algorithm:
-> RQ P0 10000 B
-
-Releasing the memory block allocated to process P0:
-> RL P0
+Reporting the regions of allocated memory and free memory:
+>![image](https://user-images.githubusercontent.com/96751896/160737947-4f14974d-b909-47e3-af58-950fcdf99c1a.png)
 
 ## Individual Contribution
 As I am working alone, I was the only contributor to the following programs and wrote all the code myself.
