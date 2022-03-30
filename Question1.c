@@ -124,7 +124,6 @@ int main(int argc, char *argv[]){
 
 		}
 		else if(strcmp(user_command, "Status") == 0){
-			printf("Status\n");
 			statusCommand();
 		}
 		else if(strcmp(user_command, "Run") == 0){
