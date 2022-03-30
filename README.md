@@ -1,7 +1,7 @@
-# CP386 Assignment 4
+# CP386 Assignment 4 - Banker's Algorithm & Contiguous Memory Allocation
 
 ## Features
-###### Question 1
+###### Question1.c
 This program implements the bankers algorithm, which is an algorithm that allows different "customers" to request resources and ensures that the system is left in a safe state such that deadlock doesn't occur. 
 
 When the program is first ran the number of resources and how much of each resource is available will be initialized, this what the "bank" has available to allocate. Following the initalization of the bank's resources, the "customer's" demands will be loaded from reading the file _sample4_in.txt_. 
@@ -19,7 +19,7 @@ The program requires that the user enter commands to perform different functions
 -  \<Run\>: ‘**Run**’ command will execute each of the customer's processess in a safe sequence. 
 - \<Exit\>: '**Exit**' command will end the programs.
 
-###### Question 2
+###### Question2.c
 This program implements contiguous memory allocation using the Best-Fit algorithm. 
 
 When the program is ran, the desired size of the available memory is given. This will represent the max memory available for allocation to each process.
@@ -45,19 +45,45 @@ To use the makefile:
 NOTE: make sure that the file _sample4_in.txt_ is present in the same directory as Question1 as the file is necassary for the program to run.
 
 ## Screenshots
-###### Question 1
-###### Question 2
+###### Question1.c
+When the program is first executed:
+>![image](https://user-images.githubusercontent.com/96751896/160735890-34abc80f-dc35-4c85-b958-e4debad53319.png)
 
-## Individual Contribution
-As I am in a group alone, I was the only contributor to the following programs and wrote all the code myself.
+Requesting resouces for some of the customers:
+>![image](https://user-images.githubusercontent.com/96751896/160736147-28ec4e5c-1c8b-47cd-83c1-1bb914f468d7.png)
 
-## Test Cases
-###### Question 1
-###### Question 2
+Releasing some of the resources allocated to the customers:
+>![image](https://user-images.githubusercontent.com/96751896/160736444-0ec39a48-a574-4ad1-8d3c-531800d9840b.png)
+
+Checking the status of the system:
+>![image](https://user-images.githubusercontent.com/96751896/160736744-b0d7c3b7-f315-4a06-97ad-6c3d61aeb853.png)
+
+Running the safe sequence:
+>![image](https://user-images.githubusercontent.com/96751896/160736811-017c6273-a7a2-4481-8133-cb98ff796aab.png)
+
+>![image](https://user-images.githubusercontent.com/96751896/160736930-849a44b9-2799-4d63-9a39-e48d36bc94ff.png)
+
+###### Question2.c
 
 ## Use Examples
-###### Question 1
-###### Question 2
+###### Question1.c
+For each of these examples assume there are 4 unique resources in the system
+
+Requesting 1 of each resource for customer 0:
+> RQ 0 1 1 1 1
+
+Releasing some of the resources allocated to customer 0:
+> RL 0 1 0 0 1
+
+###### Question2.c
+Requesting a contiguous block of memory for process P0 with a size of 10000 bytes using Best-Fit algorithm:
+> RQ P0 10000 B
+
+Releasing the memory block allocated to process P0:
+> RL P0
+
+## Individual Contribution
+As I am working alone, I was the only contributor to the following programs and wrote all the code myself.
 
 ## About Developers
 Alexander Van Rooy, Computer Science student studying at Wilfrid Laurier University
