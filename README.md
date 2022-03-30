@@ -4,14 +4,20 @@
 ###### Question 1
 This program implements the bankers algorithm, which is an algorithm that allows different "customers" to request resources and ensures that the system is left in a safe state such that deadlock doesn't occur. 
 
-When the program is first run the number of resources and how much of each resource is present will be initialized, this what the "bank" has available. Following the initalization of the bank's resources, the "customer's" demands will be loaded from reading the file _sample4_in.txt_. 
+When the program is first ran the number of resources and how much of each resource is available will be initialized, this what the "bank" has available to allocate. Following the initalization of the bank's resources, the "customer's" demands will be loaded from reading the file _sample4_in.txt_. 
+
+The program maintains 4 data structures throughout its runtime:
+- **available**: How much of each resource the "bank" has available to offer.
+- **maximum**: The maximum of each resouce that each customer needs.
+- **allocated**: The amount of each resource that a specific customer is currently allocated.
+- **need**: The amound of each resource that the customer still needs (maximum - allocated).
 
 The program requires that the user enter commands to perform different functions, the commands are as follows:
-- RQ
-- RL
-- Status
-- Run
-- Exit
+- <RQ [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource n]>: '**RQ**' command is used by the user to request resources for the desired customer. Requests can only be as large as the maximum resources needed for that customer. If the request leaves the system in a safe state then the request will be satisfied, otherwise the request will be denied.
+- <RL [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource n]>: ‘**RL**’ command is used to release the desired number of allocated resources from a given customer.
+- <Status>: ‘**Status**’ command displays each of the data structures that are being maintained (available, maximum, allocated, and need).
+- <Run>: ‘**Run**’ command will execute each of the customer's processess in a safe sequence. 
+- <Exit>: '**Exit**' command will end the programs.
 
 ###### Question 2
 
