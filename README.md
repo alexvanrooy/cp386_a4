@@ -15,11 +15,22 @@ The program maintains 4 data structures throughout its runtime:
 The program requires that the user enter commands to perform different functions, the commands are as follows:
 - <RQ [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource n]>: '**RQ**' command is used by the user to request resources for the desired customer. Requests can only be as large as the maximum resources needed for that customer. If the request leaves the system in a safe state then the request will be satisfied, otherwise the request will be denied.
 - <RL [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource n]>: ‘**RL**’ command is used to release the desired number of allocated resources from a given customer.
-- <Status>: ‘**Status**’ command displays each of the data structures that are being maintained (available, maximum, allocated, and need).
-- <Run>: ‘**Run**’ command will execute each of the customer's processess in a safe sequence. 
-- <Exit>: '**Exit**' command will end the programs.
+- \<Status\>: ‘**Status**’ command displays each of the data structures that are being maintained (available, maximum, allocated, and need).
+-  \<Run\>: ‘**Run**’ command will execute each of the customer's processess in a safe sequence. 
+- \<Exit\>: '**Exit**' command will end the programs.
 
 ###### Question 2
+This program implements contiguous memory allocation using the Best-Fit algorithm. 
+
+When the program is ran, the desired size of the available memory is given. This will represent the max memory available for allocation to each process.
+
+The program maintains a linked list that keeps track of each process, as well as the begining address and the end address of the memory block that it has been allocated.
+
+The program requires that the user input commands to perform the memory allocation, the commands are as follows:
+- <RQ [process number] [size] [B]>: '**RQ**' command takes a process number in the form of 'P#', where # is an integer, and a given size, and attempts to find a hole large enough to fit the desired memory block. The 'B' indicates the use of the Best-Fit algorithm for memory allocation. If a hole is found that can fit the desired block then the memory will be allocated, otherwise the request will be denied.
+- <RL [process number]>: '**RL**' command takes a given process number, 'P#' where # is an integer, and releases the memory that has been allocated to that process.
+- \<Status\>: '**Status**' command displays how much memory is allocated, the blocks of memory and the processes they belong to, the amount of free memory, and finally the holes that have yet to be filled.
+- \<Exit\>: '**Exit**' command will end the program.
 
 ## Makefile
 The makefile provided is used to compile both Question1.c and Question2.c.
@@ -34,6 +45,8 @@ To use the makefile:
 NOTE: make sure that the file _sample4_in.txt_ is present in the same directory as Question1 as the file is necassary for the program to run.
 
 ## Screenshots
+###### Question 1
+###### Question 2
 
 ## Individual Contribution
 As I am in a group alone, I was the only contributor to the following programs and wrote all the code myself.
