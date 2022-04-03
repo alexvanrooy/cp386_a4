@@ -1,3 +1,9 @@
+/*
+ * Alexander Van Rooy GitHub login ID: alexvanrooy
+ * URL of GitHub repository: https://github.com/alexvanrooy/cp386_a4
+ */
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
