@@ -312,7 +312,6 @@ int safeState(){
 			found = FALSE;
 		}
 		else{
-			//work = work + allocated
 			for(int i = 0; i < resource_num; i++){
 				work[i] = work[i] + allocated[index][i];
 			}

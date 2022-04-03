@@ -71,39 +71,6 @@ int main(int argc, char *argv[]){
 
 		else if(strcmp(token, "Status") == 0){
 			statusCommand();
-			/*
-			struct Process* current = head;
-			printf("Partitions [Allocated memory = %d]:\n",total_allocated);
-			while(current != NULL){
-				printf("Address {%d:%d} Process P%d\n",current->mem_start, current->mem_end, current->process_id);
-				current = current->next;
-			}
-			printf("\n");
-
-			printf("Holes [Free memory = %d]:\n",MAX - total_allocated);
-
-			current = head;
-			struct Process* previous = NULL;
-			if(head->mem_start != 0){
-				int hole_size = current->mem_start;
-				printf("Address {0:%d} len = %d\n",current->mem_start - 1, hole_size);
-			}
-			while(current != NULL){
-				int hole_size;
-				if(previous != NULL){
-					hole_size = current->mem_start - (previous->mem_end + 1);
-					if(hole_size > 0){
-						printf("Address {%d:%d} len = %d\n",previous->mem_end + 1, current->mem_start - 1, hole_size);
-					}
-				}
-				previous = current;
-				current = current->next;
-			}
-			if(previous->mem_end < MAX - 1){
-				int hole_size = MAX - (previous->mem_end + 1);
-				printf("Address {%d:%d} len = %d\n",previous->mem_end + 1, MAX - 1, hole_size);
-			}
-			*/
 		}
 
 		else{
@@ -336,6 +303,7 @@ void releaseCommand(char* input){
 		total_allocated -= (current->mem_end + 1) - current->mem_start;
 		free(current);
 		printf("releasing memory for process P%d\n", process_number);
+		printf("Successfully released memory for process P%d\n", process_number);
 		return;
 	}
 
@@ -346,6 +314,7 @@ void releaseCommand(char* input){
 			total_allocated -= (current->mem_end + 1) - current->mem_start;
 			free(current);
 			printf("releasing memory for process P%d\n", process_number);
+			printf("Successfully released memory for process P%d\n", process_number);
 			break;
 		}
 		previous = current;
